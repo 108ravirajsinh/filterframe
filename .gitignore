@@ -1,0 +1,30 @@
+# Node
+node_modules/
+dist/
+.env
+*.log
+npm-debug.log*
+
+# Python (legacy Clinsta)
+__pycache__/
+*.pyc
+*.pyo
+
+# Docker
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets — never commit
+*.pem
+*.key
+*.cert
+.env
+
+# Master document plan
+Documents/
+
+#database
+db/sessions.db
