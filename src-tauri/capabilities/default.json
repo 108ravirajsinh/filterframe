@@ -1,0 +1,22 @@
+{
+  "identifier": "default",
+  "local": true,
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "opener:default",
+    "shell:allow-kill",
+    "shell:allow-spawn",
+    {
+      "identifier": "shell:allow-execute",
+      "allow": [
+        {
+          "name": "python",
+          "cmd": "python",
+          "args": true,
+          "sidecar": false
+        }
+      ]
+    }
+  ]
+}
