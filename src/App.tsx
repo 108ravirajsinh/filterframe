@@ -6,65 +6,36 @@ import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }));
-  }
-
   const [pythonResponse, setPythonResponse] = useState('');
-  const callPython = async () => {
-  console.log('callPython fired');
-  try {
-    const command = Command.create('python', ['sidecar.py']);
-    console.log('command created');
-    const output = await command.execute();
-    console.log('stdout:', output.stdout);
-    console.log('stderr:', output.stderr);
-    setPythonResponse(output.stdout || output.stderr || 'empty output');
-  } catch (error) {
-    console.log('caught error:', error);
-    setPythonResponse(`Error: ${error}`);
-  }
-};
-  return (
-    <main className="container">
-      <h1>Welcome to Tauri + React</h1>
+  const [loading, setLoading] = useState(false);
 
-      <div className="row">
-        <a href="https://vite.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
-        <div>
-          <button onClick={callPython}>Call Python</button>
-          <p>{pythonResponse}</p>
-        </div>
-      <form
-        className="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-      <p>{greetMsg}</p>
-    </main>
+  const callPython = async () => {
+    setLoading(true);
+    setPythonResponse('');
+    try {
+      const imagePath = 'C:\\Users\\108ra\\Projects\\filterframe\\src-tauri\\test-images\\fullycloth.jpg';
+      const command = Command.create('python', ['sidecar.py', imagePath]);
+      const output = await command.execute();
+      setPythonResponse(output.stdout || output.stderr || 'empty output');
+    } catch (error) {
+      setPythonResponse(`Error: ${error}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div style={{ padding: '2rem' }}>
+      <h1>FilterFrame IPC Test</h1>
+      <button onClick={callPython} disabled={loading}>
+        {loading ? 'Analyzing...' : 'Test NudeNet'}
+      </button>
+      {pythonResponse && (
+        <pre style={{ marginTop: '1rem', whiteSpace: 'pre-wrap' }}>
+          {pythonResponse}
+        </pre>
+      )}
+    </div>
   );
 }
 
