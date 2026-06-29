@@ -1,6 +1,4 @@
-.gitignore
-src-tauri/.gitignore
-
+# Logs
 logs
 *.log
 npm-debug.log*
@@ -13,9 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
-src-tauri/target/
-src-tauri/test-images/
-src-tauri/venv/
+#venv file location
+#test images file location
 
 # Editor directories and files
 .vscode/*
